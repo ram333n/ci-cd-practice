@@ -31,8 +31,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: |
-        ./mvnw -B package --file pom.xml
+      run: mvn -B package --file pom.xml
       
     - name: Add test coverage to PR
       id: jacoco
