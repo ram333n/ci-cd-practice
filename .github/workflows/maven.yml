@@ -17,10 +17,7 @@ on:
 jobs:
   build:
 
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -46,6 +43,14 @@ jobs:
       run: |
         echo "coverage overall = ${{ steps.jacoco.outputs.coverage-overall }}"
         echo "coverage changed files = ${{ steps.jacoco.outputs.coverage-changed-files }}" 
+
+    - name: Build and push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: ram333n/ci-cd-practice
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
         
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
